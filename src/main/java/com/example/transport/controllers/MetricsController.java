@@ -13,26 +13,19 @@ public class MetricsController {
 
     @GetMapping("/{num}")
     public ResponseEntity<?> getMetricsByNum(
-            @PathVariable int num
+            @PathVariable String num
     ){
         return ResponseEntity.ok(
                 metricsService.getPackageStatsByNum(num)
         );
     }
 
-    @GetMapping("/filter")
+    @GetMapping
     public ResponseEntity<?> getMetricsByGap(
-            @RequestParam(name = "gap", defaultValue = "30") int minutes
+            @RequestParam(name = "gap", defaultValue = "0") int minutes
     ){
         return ResponseEntity.ok(
                 metricsService.getPackageStatsGap(minutes)
-        );
-    }
-
-    @GetMapping()
-    public ResponseEntity<?> getMetrics(){
-        return ResponseEntity.ok(
-                metricsService.getPackageStats()
         );
     }
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PointMetrics {
+    private String time;
     private long totalRequests;
     private double avgSpeed;
 
@@ -16,6 +17,7 @@ public class PointMetrics {
     }
 
     public void updateMetrics(PackageDto metrics){
+        time = (metrics.timestamp().compareTo(time) > 0 ? metrics.timestamp() : time);
         totalRequests++;
         updateAvgSpeed(metrics.speed());
     }

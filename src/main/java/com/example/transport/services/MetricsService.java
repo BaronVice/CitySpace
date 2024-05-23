@@ -1,5 +1,6 @@
 package com.example.transport.services;
 
+import com.example.transport.dtos.PackageMetricsDto;
 import com.example.transport.entities.Point;
 import com.example.transport.entities.PointMetrics;
 import com.example.transport.repositories.PackageRepository;
@@ -14,9 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -27,11 +26,15 @@ public class MetricsService {
     private final Map<Point, PointMetrics> mapToPoints;
     private final PackageRepository packageRepository;
 
-    public List<PackageStats> getPackageStatsByNum(int num) {
+    public List<PackageStats> getPackageStatsByNum(String num) {
         return packageRepository.getPackageStatsByHeading(num);
     }
 
     public List<PackageStats> getPackageStatsGap(int minutes) {
+        if (minutes == 0){
+            return getPackageStats();
+        }
+
         String timestamp = getTime(minutes);
         return packageRepository.getPackageStatsByHeading(timestamp);
     }
@@ -43,5 +46,9 @@ public class MetricsService {
 
     public List<PackageStats> getPackageStats() {
         return packageRepository.getAllBy();
+    }
+
+    public List<PackageStats> compress(List<PackageStats> packages){
+        return Collections.emptyList();
     }
 }
